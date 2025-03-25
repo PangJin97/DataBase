@@ -31,15 +31,35 @@ CREATE TABLE BOOK_IMG (
 	IMG_CODE INT PRIMARY KEY AUTO_INCREMENT
 	,ORIGIN_FILE_NAME VARCHAR(100) NOT NULL
 	,ATTACHED_FILE_NAME VARCHAR(100) NOT NULL
-	,IS_MAIN VARCHAR(3) NOT NULL    #Y, N
+	,IS_MAIN VARCHAR(3) NOT NULL    #Y 메인이미지, N 상세이미지
 	,BOOK_CODE INT NOT NULL REFERENCES book(BOOK_CODE) ON DELETE CASCADE # 참조 무결성 (부모태그가 삭제되면 자식 태그도 삭제된다)
 );
+#당연히 도서가 사라지면 이미지도 사라져야한다. 그래서 CASCADE 
+
+
+#모든 상품에 대해서 첨부된 상품 이미지명, 상품명, 가격을 조회 
+#메인 페이지만 화면에 띄우기 위한 조회
+#화면에 띄우려면 첨부된 이미지를 조회하면 된다 
+SELECT ATTACHED_FILE_NAME, BOOK_NAME, BOOK_PRICE
+FROM book B INNER JOIN book_img I
+ON B.BOOK_CODE = I.BOOK_CODE
+WHERE IS_MAIN = 'Y';
+
+
+SELECT * FROM BOOK_IMG;
+SELECT * FROM BOOK;
 
 # 한 번에 여러 데이터 INSERT 하기 
 INSERT INTO book_img (IMG_CODE, ORIGIN_FILE_NAME, ATTACHED_FILE_NAME, IS_MAIN, BOOK_CODE)
 VALUES
 (1,'aaa.jpg','1111-2222.jpg','Y', 1),
 (3,'aaa.jpg','1111-2222.jpg','N', 1);
+#book테이블과 동일한 book_code를 넣어야함 (직접 지정해서 넣어야함)
+#왜냐 BOOK테이블에선 자동생성하지만 Img_book은 빈값을 넣어줘야한다 단, 동일하게 
+
+#book 테이블에 저장된 book_code 중 가장 큰 수 조회 
+SELECT MAX(BOOK_CODE)+1 FROM book;
+
 
 ROLLBACK;
 SELECT * FROM book;
