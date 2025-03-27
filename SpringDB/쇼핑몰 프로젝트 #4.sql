@@ -54,12 +54,15 @@ INSERT INTO book_img (IMG_CODE, ORIGIN_FILE_NAME, ATTACHED_FILE_NAME, IS_MAIN, B
 VALUES
 (1,'aaa.jpg','1111-2222.jpg','Y', 1),
 (3,'aaa.jpg','1111-2222.jpg','N', 1);
+
+
 #book테이블과 동일한 book_code를 넣어야함 (직접 지정해서 넣어야함)
 #왜냐 BOOK테이블에선 자동생성하지만 Img_book은 빈값을 넣어줘야한다 단, 동일하게 
 
-#book 테이블에 저장된 book_code 중 가장 큰 수 조회 
-SELECT MAX(BOOK_CODE)+1 FROM book;
-
+#book 테이블에 저장된 book_code 중 가장 큰 수 조회하는데 
+SELECT MAX(BOOK_CODE) FROM book;
+#만약 데이터가 없으면 null이 조회된다 그럼 null을 0으로 바꿔준다.
+SELECT IFNULL(MAX(BOOK_CODE),0)+1 FROM book;
 
 ROLLBACK;
 SELECT * FROM book;
