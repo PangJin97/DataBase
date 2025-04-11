@@ -94,4 +94,61 @@ SET ENG_NAME = CASE
 END
 WHERE ID IN (1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
+#회원정보테이블
+CREATE TABLE USER(
+	USER_EMAIL VARCHAR(50) PRIMARY KEY NOT NULL,
+	USER_PASSWORD VARCHAR(100) NOT NULL UNIQUE,
+	USER_TEL VARCHAR(50) NOT NULL UNIQUE,
+	USER_ROLE VARCHAR(50) NOT NULL DEFAULT 'FARMER',
+	JOIN_DATE DATETIME NOT NULL DEFAULT SYSDATE(),
+	USER_NAME VARCHAR(50) NOT NULL
+); 
+
+SELECT * FROM USER;
+
+
+#테스트용 회원정보
+INSERT INTO USER (USER_EMAIL, USER_PASSWORD, USER_TEL, USER_ROLE, USER_NAME)
+VALUES 
+('admin@example.com', 'admin1234!', '010-1111-2222', 'ADMIN', '관리자'),
+('farmer1@example.com', 'farmer123!', '010-2222-3333', 'FARMER', '홍길동'),
+('farmer2@example.com', 'plantlover99', '010-3333-4444', 'FARMER', '김초록'),
+('user1@example.com', 'userpass1', '010-4444-5555', 'USER', '이유저');
+
+
+
+
+CREATE TABLE FREE_BOARD(
+	BOARD_NUM INT PRIMARY KEY AUTO_INCREMENT
+	,TITLE VARCHAR(100) NOT NULL
+	,CONTENT TEXT NOT NULL
+	,READ_CNT INT DEFAULT 0
+	,REG_DATE DATETIME DEFAULT SYSDATE()
+	,USER_EMAIL VARCHAR(50) NOT NULL REFERENCES USER(USER_EMAIL)
+);
+
+#조회수 기본값을 0으로 변경 
+ALTER TABLE FREE_BOARD
+MODIFY READ_CNT INT DEFAULT 0;
+
+
+#테스트용 게시글 내용
+INSERT INTO FREE_BOARD (TITLE, CONTENT, USER_EMAIL)
+VALUES 
+('처음 글입니다', '안녕하세요. 반갑습니다!', 'farmer1@example.com'),
+('질문이 있어요', '물을 얼마나 자주 줘야 하나요?', 'user1@example.com'),
+('후기 공유해요', '몬스테라가 엄청 잘 자랐어요!', 'farmer2@example.com'),
+('센서 설치 후기', 'IoT 센서를 직접 설치해봤습니다.', 'admin@example.com');
+
+
+
+#테스트용 삭제
+DELETE FROM FREE_BOARD WHERE TITLE LIKE '테스트%';
+
+
+SELECT * FROM FREE_BOARD;
+
+
+
+
 
