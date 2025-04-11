@@ -19,7 +19,7 @@ ALTER TABLE ENVIRONMENT ADD COLUMN HUMIDITY FLOAT;
 #토양 수분 데이터 추가
 ALTER TABLE ENVIRONMENT ADD COLUMN SOIL_MOISTURE FLOAT;
 
-# 테이블 구조는 두고 데이터만 삭제(id값도 1부터 시작)
+# 테이블 구조는 두고 데이터만 삭제team4(id값도 1부터 시작)
 TRUNCATE TABLE environment;
 
 #환경변수 조회 
@@ -99,7 +99,7 @@ CREATE TABLE USER(
 	USER_EMAIL VARCHAR(50) PRIMARY KEY NOT NULL,
 	USER_PASSWORD VARCHAR(100) NOT NULL UNIQUE,
 	USER_TEL VARCHAR(50) NOT NULL UNIQUE,
-	USER_ROLE VARCHAR(50) NOT NULL DEFAULT 'FARMER',
+	USER_ROLE VARCHAR(50) NOT NULL DEFAULT 'ROLE_FARMER',
 	JOIN_DATE DATETIME NOT NULL DEFAULT SYSDATE(),
 	USER_NAME VARCHAR(50) NOT NULL
 ); 
@@ -107,18 +107,21 @@ CREATE TABLE USER(
 SELECT * FROM USER;
 
 
-#테스트용 회원정보
-INSERT INTO USER (USER_EMAIL, USER_PASSWORD, USER_TEL, USER_ROLE, USER_NAME)
-VALUES 
-('admin@example.com', 'admin1234!', '010-1111-2222', 'ADMIN', '관리자'),
-('farmer1@example.com', 'farmer123!', '010-2222-3333', 'FARMER', '홍길동'),
-('farmer2@example.com', 'plantlover99', '010-3333-4444', 'FARMER', '김초록'),
-('user1@example.com', 'userpass1', '010-4444-5555', 'USER', '이유저');
+#테스트용 유저 데이터
+INSERT INTO USER (USER_EMAIL, USER_PASSWORD, USER_TEL, USER_ROLE, USER_NAME) VALUES
+('test1@example.com', 'testpw1', '010-1111-1111', 'ROLE_FARMER', '김테스트'),
+('test2@example.com', 'testpw2', '010-2222-2222', 'ROLE_FARMER', '이테스트'),
+('test3@example.com', 'testpw3', '010-3333-3333', 'ROLE_FARMER', '박테스트'),
+('test4@example.com', 'testpw4', '010-4444-4444', 'ROLE_FARMER', '최테스트'),
+('test5@example.com', 'testpw5', '010-5555-5555', 'ROLE_FARMER', '정테스트');
+
+COMMIT;
 
 
 
+#test1@example.com 테스트용 이메일, 숫자만 바꾸면 됨
 
-CREATE TABLE FREE_BOARD(
+CREATE TABLE PLANT_STORY(
 	BOARD_NUM INT PRIMARY KEY AUTO_INCREMENT
 	,TITLE VARCHAR(100) NOT NULL
 	,CONTENT TEXT NOT NULL
@@ -127,26 +130,10 @@ CREATE TABLE FREE_BOARD(
 	,USER_EMAIL VARCHAR(50) NOT NULL REFERENCES USER(USER_EMAIL)
 );
 
-#조회수 기본값을 0으로 변경 
-ALTER TABLE FREE_BOARD
-MODIFY READ_CNT INT DEFAULT 0;
-
-
-#테스트용 게시글 내용
-INSERT INTO FREE_BOARD (TITLE, CONTENT, USER_EMAIL)
-VALUES 
-('처음 글입니다', '안녕하세요. 반갑습니다!', 'farmer1@example.com'),
-('질문이 있어요', '물을 얼마나 자주 줘야 하나요?', 'user1@example.com'),
-('후기 공유해요', '몬스테라가 엄청 잘 자랐어요!', 'farmer2@example.com'),
-('센서 설치 후기', 'IoT 센서를 직접 설치해봤습니다.', 'admin@example.com');
+SELECT * FROM PLANT_STORY;
 
 
 
-#테스트용 삭제
-DELETE FROM FREE_BOARD WHERE TITLE LIKE '테스트%';
-
-
-SELECT * FROM FREE_BOARD;
 
 
 
