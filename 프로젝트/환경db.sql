@@ -107,30 +107,21 @@ CREATE TABLE USER(
 SELECT * FROM USER;
 
 
-#테스트용 유저 데이터
-INSERT INTO USER (USER_EMAIL, USER_PASSWORD, USER_TEL, USER_ROLE, USER_NAME) VALUES
-('test1@example.com', 'testpw1', '010-1111-1111', 'ROLE_FARMER', '김테스트'),
-('test2@example.com', 'testpw2', '010-2222-2222', 'ROLE_FARMER', '이테스트'),
-('test3@example.com', 'testpw3', '010-3333-3333', 'ROLE_FARMER', '박테스트'),
-('test4@example.com', 'testpw4', '010-4444-4444', 'ROLE_FARMER', '최테스트'),
-('test5@example.com', 'testpw5', '010-5555-5555', 'ROLE_FARMER', '정테스트');
-
 COMMIT;
-
-
 
 #test1@example.com 테스트용 이메일, 숫자만 바꾸면 됨
 #PLANT STORY 테이블
 CREATE TABLE PLANT_STORY(
 	BOARD_NUM INT PRIMARY KEY AUTO_INCREMENT
 	,TITLE VARCHAR(100) NOT NULL
-	,CONTENT TEXT NOT NULL
+	,CONTENT LONGTEXT NOT NULL
 	,READ_CNT INT DEFAULT 0
 	,REG_DATE DATETIME DEFAULT SYSDATE()
 	,USER_EMAIL VARCHAR(50) NOT NULL REFERENCES USER(USER_EMAIL)
 );
 
-SELECT * FROM PLANT_STORY;
+SELECT * FROM plant_story;
+
 
 
 #댓글 테이블
