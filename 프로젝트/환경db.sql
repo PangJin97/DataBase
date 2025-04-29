@@ -127,6 +127,8 @@ CREATE TABLE REPLY_FARMERS (
 
 SELECT * FROM reply_farmers;
 
+SELECT * FROM messages;
+SELECT * FROM threads;
 
 
 #QNA 댓글 테이블
